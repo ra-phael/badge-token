@@ -3,8 +3,9 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "./ERC721NonTransferrable.sol";
 
-contract ReputationBadges721 is IERC721 {
+contract ReputationBadges721 is IERC721, ERC721NonTransferrable {
 	using Counters for Counters.Counter;
 
 	event Minted(
@@ -41,11 +42,6 @@ contract ReputationBadges721 is IERC721 {
 
 		// avoid token with a zero id
 		_tokenIdTracker.increment();
-	}
-
-	modifier NotAllowed {
-		revert("Not allowed");
-		_;
 	}
 
 	// TEMPORARY, to test
@@ -118,53 +114,6 @@ contract ReputationBadges721 is IERC721 {
 	{
 		return interfaceId == type(IERC721).interfaceId;
 	}
-
-	function safeTransferFrom(
-		address from,
-		address to,
-		uint256 tokenId
-	) external override NotAllowed {}
-
-	function transferFrom(
-		address from,
-		address to,
-		uint256 tokenId
-	) external override NotAllowed {}
-
-	function approve(address to, uint256 tokenId)
-		external
-		override
-		NotAllowed
-	{}
-
-	function getApproved(uint256 tokenId)
-		external
-		view
-		override
-		NotAllowed
-		returns (address operator)
-	{}
-
-	function setApprovalForAll(address operator, bool _approved)
-		external
-		override
-		NotAllowed
-	{}
-
-	function isApprovedForAll(address owner, address operator)
-		external
-		view
-		override
-		NotAllowed
-		returns (bool)
-	{}
-
-	function safeTransferFrom(
-		address from,
-		address to,
-		uint256 tokenId,
-		bytes calldata data
-	) external override NotAllowed {}
 
 	/**
 	 * @dev Returns whether `tokenId` exists.
