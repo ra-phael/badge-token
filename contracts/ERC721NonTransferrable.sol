@@ -55,4 +55,11 @@ abstract contract ERC721NonTransferrable is IERC721 {
 		uint256 tokenId,
 		bytes calldata data
 	) external override NotAllowed {}
+	
+	/**
+     * @dev See {IERC165-supportsInterface}.
+     */
+	function supportsInterface(bytes4 interfaceId) public pure override returns (bool) {
+        return interfaceId == type(IERC721).interfaceId;
+    }
 }
