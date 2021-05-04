@@ -29,7 +29,7 @@ contract ReputationBadges721 is IERC721, ERC721NonTransferrable {
 	// Mapping from owner address to token count
 	mapping(address => uint256) private _balances;
 
-	// Mapping from address to provider Id to token id
+	// Mapping from address to provider id to token id
 	mapping(address => mapping(uint256 => uint256))
 		private _ownedTokenByProvider;
 
@@ -51,6 +51,12 @@ contract ReputationBadges721 is IERC721, ERC721NonTransferrable {
 		_mint(to, currentId, providerId);
 	}
 
+	// TEMPORARY, to test
+	function burn(uint256 tokenId) public {
+		_burn(tokenId);
+	}
+
+	// Returns 0 if owner does not have a token for the given provider
 	function getTokenByAddressAndProvider(address owner, uint256 providerId)
 		public
 		view
@@ -146,5 +152,19 @@ contract ReputationBadges721 is IERC721, ERC721NonTransferrable {
 
 		emit Transfer(address(0), to, tokenId);
 		emit Minted(providerId, to, tokenId);
+	}
+
+	function _burn(uint256 tokenId) internal {
+		require(_exists(tokenId), "ERC721: token does not exist");
+
+		address owner = _owners[tokenId];
+		uint256 providerId = _providers[tokenId];
+
+		_balances[owner] -= 1;
+		delete _owners[tokenId];
+		delete _ownedTokenByProvider[owner][providerId];
+		delete _providers[tokenId];
+
+		emit Transfer(owner, address(0), tokenId);
 	}
 }
