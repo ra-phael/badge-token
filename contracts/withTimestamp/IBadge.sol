@@ -54,6 +54,11 @@ interface IBadge {
 	function symbol() external view returns (string memory);
 
 	/**
+	 * @dev Returns the Uniform Resource Identifier (URI) for the badge.
+	 */
+	function URI() external view returns (string memory);
+
+	/**
 	 * @dev Returns the token owned by `owner`, if they own one, and an empty Token otherwise
 	 *
 	 * Requirements:
